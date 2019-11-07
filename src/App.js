@@ -1,27 +1,22 @@
-import React from 'react';
+import React, { useReducer, useState } from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import { reducer, initialState } from "./reducers";
 
 import Header from './components/Header';
 import AddedFeatures from './components/AddedFeatures';
 import AdditionalFeatures from './components/AdditionalFeatures';
 import Total from './components/Total';
 
+
+const store = createStore(reducer, initialState)
+
+
+
+
 const App = () => {
-  const state = {
-    additionalPrice: 0,
-    car: {
-      price: 26395,
-      name: '2019 Ford Mustang',
-      image:
-        'https://cdn.motor1.com/images/mgl/0AN2V/s1/2019-ford-mustang-bullitt.jpg',
-      features: []
-    },
-    additionalFeatures: [
-      { id: 1, name: 'V-6 engine', price: 1500 },
-      { id: 2, name: 'Racing detail package', price: 1500 },
-      { id: 3, name: 'Premium sound system', price: 500 },
-      { id: 4, name: 'Rear spoiler', price: 250 }
-    ]
-  };
+  const [state,dispatch] = useReducer(reducer, initialState);
 
   const removeFeature = item => {
     // dispatch an action here to remove an item
@@ -32,6 +27,8 @@ const App = () => {
   };
 
   return (
+    <Provider store={store}>
+
     <div className="boxes">
       <div className="box">
         <Header car={state.car} />
@@ -42,6 +39,7 @@ const App = () => {
         <Total car={state.car} additionalPrice={state.additionalPrice} />
       </div>
     </div>
+    </Provider>
   );
 };
 
